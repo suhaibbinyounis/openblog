@@ -5,7 +5,7 @@ description = "Open-source Python toolkit for AI-powered blog creation. Automate
 readme = "README.md"
 license = { text = "MIT" }
 authors = [
-    { name = "Suhaib Bin Younis", email = "suhaib@example.com" }
+    { name = "Suhaib Bin Younis", email = "github@suhaib.in" }
 ]
 requires-python = ">=3.10"
 classifiers = [
