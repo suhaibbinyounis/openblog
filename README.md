@@ -261,6 +261,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **[⬆ Back to Top](#-openblog)**
 
-Made with ❤️ by [Suhaib Bin Younis](https://github.com/suhaibbinyounis)
+Made with ❤️ by [Suhaib Bin Younis](https://suhaib.in)
+
+[![Website](https://img.shields.io/badge/Website-suhaib.in-blue?style=flat-square)](https://suhaib.in)
+[![Portfolio](https://img.shields.io/badge/Portfolio-suhaibbinyounis.com-green?style=flat-square)](https://suhaibbinyounis.com)
+[![GitHub](https://img.shields.io/badge/GitHub-suhaibbinyounis-black?style=flat-square&logo=github)](https://github.com/suhaibbinyounis)
 
 </div>

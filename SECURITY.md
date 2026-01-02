@@ -11,7 +11,7 @@
 We take security seriously. If you discover a security vulnerability within OpenBlog, please follow these steps:
 
 1. **Do NOT** open a public GitHub issue for security vulnerabilities
-2. Email your findings to [suhaib@suhaib.in](mailto:suhaib@suhaib.in)
+2. Email your findings to [github@suhaib.in](mailto:github@suhaib.in)
 3. Include detailed steps to reproduce the vulnerability
 4. Allow up to 48 hours for an initial response
 
