@@ -1,0 +1,52 @@
+name: ❓ Question
+description: Ask a question about using OpenBlog
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question about OpenBlog? We're here to help!
+        
+        Please check the [documentation](https://github.com/suhaibbinyounis/openblog#readme) first.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: How do I...?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      description: What area is your question about?
+      options:
+        - Installation & Setup
+        - Configuration
+        - AI Agents
+        - Blog Generation
+        - Content Management
+        - Deployment
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you tried?
+      description: Describe what you've already attempted or researched
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Add any other context, code snippets, or screenshots
+    validations:
+      required: false
