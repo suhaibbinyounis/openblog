@@ -71,9 +71,9 @@ class FrontmatterGenerator:
         if date is None:
             date = datetime.now()
         if isinstance(date, datetime):
-            date_str = date.strftime("%Y-%m-%dT%H:%M:%S%z")
-            if not date_str.endswith("Z") and "+" not in date_str and "-" not in date_str[-6:]:
-                date_str += "+00:00"
+            # Format: 2026-01-10T10:48:53.098Z
+            # Use 3 digits for milliseconds and always append Z
+            date_str = date.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
         else:
             date_str = date
 
