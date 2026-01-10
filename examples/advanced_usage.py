@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Advanced example demonstrating all OpenBlog features.
+"""Advanced example demonstrating all Pencraft features.
 
 This example shows:
 - Custom configuration
@@ -101,7 +101,7 @@ def step_by_step_generation() -> None:
         description=blog_outline.meta_description,
         tags=blog_outline.tags,
         categories=blog_outline.categories,
-        author="OpenBlog",
+        author="Pencraft",
     )
 
     full_content = frontmatter + "\n" + write_result.content
@@ -179,7 +179,7 @@ def custom_citation_styles() -> None:
 def main() -> None:
     """Run all examples."""
 
-    print("\n🎯 OpenBlog Advanced Examples\n")
+    print("\n🎯 Pencraft Advanced Examples\n")
 
     # Step-by-step generation
     step_by_step_generation()

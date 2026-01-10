@@ -1,4 +1,4 @@
-"""Pytest configuration and fixtures for OpenBlog tests."""
+"""Pytest configuration and fixtures for Pencraft tests."""
 
 import pytest
 

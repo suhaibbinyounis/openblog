@@ -1,6 +1,6 @@
-"""OpenBlog - AI-powered blog writing toolkit.
+"""Pencraft - AI-powered blog writing toolkit.
 
-OpenBlog automates blog creation through AI, leveraging LangChain and
+Pencraft automates blog creation through AI, leveraging LangChain and
 OpenAI-compatible APIs to research topics, create structured outlines,
 and generate publish-ready blog posts in markdown format.
 """

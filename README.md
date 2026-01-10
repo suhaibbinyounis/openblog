@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 OpenBlog
+# 🚀 Pencraft
 
 **AI-powered blog writing toolkit that automates research, planning, and content creation**
 
@@ -102,14 +102,14 @@ print(f"Saved to: {blog.file_path}")
 
 ## ⚙️ Configuration
 
-OpenBlog supports multiple configuration methods:
+Pencraft supports multiple configuration methods:
 
 ### 1. Environment Variables
 
 ```bash
-export OPENBLOG_LLM__BASE_URL="http://localhost:3030/v1"
-export OPENBLOG_LLM__API_KEY="your-api-key"
-export OPENBLOG_LLM__MODEL="gpt-4"
+export PENCRAFT_LLM__BASE_URL="http://localhost:3030/v1"
+export PENCRAFT_LLM__API_KEY="your-api-key"
+export PENCRAFT_LLM__MODEL="gpt-4"
 ```
 
 ### 2. Configuration File
@@ -204,7 +204,7 @@ draft: false
 tags: ["machine-learning", "ai", "tutorial"]
 categories: ["Technology"]
 toc: true
-author: "OpenBlog"
+author: "Pencraft"
 ---
 
 # Introduction to Machine Learning

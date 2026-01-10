@@ -1,4 +1,4 @@
-"""Logging configuration for OpenBlog."""
+"""Logging configuration for Pencraft."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ def configure_logging(
     verbose: bool = False,
     debug: bool = False,
 ) -> logging.Logger:
-    """Configure logging for OpenBlog.
+    """Configure logging for Pencraft.
 
     Args:
         level: Logging level (int or string like 'DEBUG').

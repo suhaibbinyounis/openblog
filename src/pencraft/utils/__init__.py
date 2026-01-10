@@ -1,4 +1,4 @@
-"""Utilities package for OpenBlog."""
+"""Utilities package for Pencraft."""
 
 from pencraft.utils.logging import configure_logging
 

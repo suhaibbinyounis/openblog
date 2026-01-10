@@ -1,6 +1,6 @@
-# Contributing to OpenBlog
+# Contributing to Pencraft
 
-First off, thank you for considering contributing to OpenBlog! It's people like you that make OpenBlog such a great tool.
+First off, thank you for considering contributing to Pencraft! It's people like you that make Pencraft such a great tool.
 
 ## Code of Conduct
 
@@ -16,7 +16,7 @@ Before creating bug reports, please check the existing issues to avoid duplicate
 - **Describe the exact steps to reproduce the problem**
 - **Provide specific examples** (config files, commands used)
 - **Describe the behavior you observed and what you expected**
-- **Include your environment details** (OS, Python version, OpenBlog version)
+- **Include your environment details** (OS, Python version, Pencraft version)
 
 ### Suggesting Enhancements
 

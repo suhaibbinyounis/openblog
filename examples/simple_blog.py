@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Simple example of using OpenBlog to generate a blog post.
+"""Simple example of using Pencraft to generate a blog post.
 
-This example demonstrates the basic usage of the OpenBlog library
+This example demonstrates the basic usage of the Pencraft library
 to generate a complete blog post from a topic.
 """
 
@@ -47,7 +47,7 @@ def main() -> None:
         target_word_count=2000,
         tags=["python", "programming", "tutorial", "beginners"],
         categories=["Programming", "Tutorials"],
-        author="OpenBlog",
+        author="Pencraft",
         draft=False,
         output_dir=Path("./output"),
     )

@@ -8,7 +8,7 @@
 
 ## Reporting a Vulnerability
 
-We take security seriously. If you discover a security vulnerability within OpenBlog, please follow these steps:
+We take security seriously. If you discover a security vulnerability within Pencraft, please follow these steps:
 
 1. **Do NOT** open a public GitHub issue for security vulnerabilities
 2. Email your findings to [github@suhaib.in](mailto:github@suhaib.in)
@@ -32,11 +32,11 @@ We take security seriously. If you discover a security vulnerability within Open
 
 ## Security Best Practices for Users
 
-When using OpenBlog:
+When using Pencraft:
 
 1. **API Keys**: Never commit API keys to version control
 2. **Local LLM**: Consider using local LLM endpoints for sensitive content
 3. **Output Review**: Always review AI-generated content before publishing
 4. **Dependencies**: Keep dependencies updated with `pip install --upgrade`
 
-Thank you for helping keep OpenBlog and its users safe!
+Thank you for helping keep Pencraft and its users safe!

@@ -1,4 +1,4 @@
-"""Markdown formatting utilities for OpenBlog."""
+"""Markdown formatting utilities for Pencraft."""
 
 from __future__ import annotations
 

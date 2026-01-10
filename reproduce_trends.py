@@ -1,5 +1,5 @@
 
-from openblog.tools.trends import TrendsTool
+from pencraft.tools.trends import TrendsTool
 import logging
 
 # Configure logging to print warnings

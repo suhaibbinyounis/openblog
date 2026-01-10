@@ -1,4 +1,4 @@
-"""Agent package for OpenBlog."""
+"""Agent package for Pencraft."""
 
 from pencraft.agents.base import BaseAgent
 from pencraft.agents.planner import PlannerAgent

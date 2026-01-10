@@ -1,4 +1,4 @@
-"""Command-line interface for OpenBlog."""
+"""Command-line interface for Pencraft."""
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ def version_callback(value: bool) -> None:
     if value:
         from pencraft import __version__
 
-        console.print(f"[bold blue]OpenBlog[/bold blue] version [green]{__version__}[/green]")
+        console.print(f"[bold blue]Pencraft[/bold blue] version [green]{__version__}[/green]")
         raise typer.Exit()
 
 
@@ -43,7 +43,7 @@ def main(
         ),
     ] = None,
 ) -> None:
-    """OpenBlog - AI-powered blog writing toolkit.
+    """Pencraft - AI-powered blog writing toolkit.
 
     Generate professional, well-researched blog posts with AI.
     """
@@ -123,7 +123,7 @@ def write(
             f"Topic: [cyan]{topic}[/cyan]\n"
             f"Target: [yellow]{words}[/yellow] words\n"
             f"Output: [green]{output}[/green]",
-            title="[bold blue]OpenBlog[/bold blue]",
+            title="[bold blue]Pencraft[/bold blue]",
             border_style="blue",
         )
     )
@@ -335,7 +335,7 @@ def show_config(
     if show:
         settings = Settings()
 
-        table = Table(title="OpenBlog Configuration", show_header=True)
+        table = Table(title="Pencraft Configuration", show_header=True)
         table.add_column("Setting", style="cyan")
         table.add_column("Value", style="green")
 

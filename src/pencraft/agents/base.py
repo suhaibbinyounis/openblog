@@ -1,4 +1,4 @@
-"""Base agent class for OpenBlog."""
+"""Base agent class for Pencraft."""
 
 from __future__ import annotations
 

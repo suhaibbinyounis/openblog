@@ -1,4 +1,4 @@
-"""LLM client package for OpenBlog."""
+"""LLM client package for Pencraft."""
 
 from pencraft.llm.client import LLMClient
 

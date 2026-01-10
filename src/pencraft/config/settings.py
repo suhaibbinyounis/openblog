@@ -1,4 +1,4 @@
-"""Configuration management for OpenBlog using Pydantic Settings."""
+"""Configuration management for Pencraft using Pydantic Settings."""
 
 from __future__ import annotations
 
@@ -187,10 +187,10 @@ class PromptSettings(BaseModel):
 
 
 class Settings(BaseSettings):
-    """Main settings class for OpenBlog."""
+    """Main settings class for Pencraft."""
 
     model_config = SettingsConfigDict(
-        env_prefix="OPENBLOG_",
+        env_prefix="PENCRAFT_",
         env_nested_delimiter="__",
         case_sensitive=False,
         extra="ignore",
@@ -222,7 +222,7 @@ class Settings(BaseSettings):
     @classmethod
     def load_from_config_file(cls, values: dict[str, Any]) -> dict[str, Any]:
         """Load settings from config file if specified."""
-        config_file = values.get("config_file") or os.environ.get("OPENBLOG_CONFIG_FILE")
+        config_file = values.get("config_file") or os.environ.get("PENCRAFT_CONFIG_FILE")
 
         if config_file:
             config_path = Path(config_file)

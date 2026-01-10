@@ -1,4 +1,4 @@
-"""Default configuration values and templates for OpenBlog.
+"""Default configuration values and templates for Pencraft.
 
 Optimized for premium, publication-quality blog generation.
 """
@@ -24,7 +24,7 @@ DEFAULT_OUTPUT_FORMAT = "markdown"
 DEFAULT_FRONTMATTER_TEMPLATE: dict[str, Any] = {
     "draft": False,
     "toc": True,
-    "author": "OpenBlog AI",
+    "author": "Pencraft AI",
 }
 
 # Hugo-specific defaults

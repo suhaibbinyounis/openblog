@@ -161,7 +161,7 @@ def main() -> None:
             "frontmatter_format": "yaml",
             "default_frontmatter": {
                 "draft": False,
-                "author": "OpenBlog AI Analyst",
+                "author": "Pencraft AI Analyst",
             },
         },
     )
@@ -170,7 +170,7 @@ def main() -> None:
     generator = BlogGenerator(settings=settings)
 
     print("=" * 70)
-    print("🚀 OpenBlog: High-CPC 2026 Content Generator")
+    print("🚀 Pencraft: High-CPC 2026 Content Generator")
     print("=" * 70)
     print(f"📝 Generating {len(BLOG_TOPICS)} high-value posts...")
     print(f"📂 Output directory: {output_dir.absolute()}")

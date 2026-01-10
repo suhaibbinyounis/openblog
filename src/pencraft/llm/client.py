@@ -1,4 +1,4 @@
-"""OpenAI-compatible LLM client wrapper for OpenBlog."""
+"""OpenAI-compatible LLM client wrapper for Pencraft."""
 
 from __future__ import annotations
 

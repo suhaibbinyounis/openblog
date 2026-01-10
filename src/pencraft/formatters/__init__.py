@@ -1,4 +1,4 @@
-"""Formatters package for OpenBlog."""
+"""Formatters package for Pencraft."""
 
 from pencraft.formatters.citations import CitationFormatter
 from pencraft.formatters.frontmatter import FrontmatterGenerator

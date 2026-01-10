@@ -1,5 +1,5 @@
-# OpenBlog Configuration Example
-# Copy this file to openblog.yaml and customize as needed
+# Pencraft Configuration Example
+# Copy this file to pencraft.yaml and customize as needed
 
 # LLM Settings
 llm:
@@ -62,7 +62,7 @@ hugo:
   default_frontmatter:
     draft: false
     toc: true
-    author: "OpenBlog AI"
+    author: "Pencraft AI"
 
   # Hugo content directory
   content_dir: "content/posts"
@@ -99,4 +99,4 @@ blog:
 # General Settings
 verbose: false
 debug: false
-# log_file: "./openblog.log"
+# log_file: "./pencraft.log"
