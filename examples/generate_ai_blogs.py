@@ -8,8 +8,8 @@ import time
 import warnings
 from pathlib import Path
 
-from openblog import Settings
-from openblog.generator import BlogGenerator
+from pencraft import Settings
+from pencraft.generator import BlogGenerator
 
 warnings.filterwarnings("ignore", message="This package.*has been renamed")
 

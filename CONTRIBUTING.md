@@ -59,8 +59,8 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/openblog.git
-cd openblog
+git clone https://github.com/YOUR_USERNAME/pencraft.git
+cd pencraft
 
 # Install in development mode
 pip install -e ".[dev]"
@@ -76,7 +76,7 @@ poetry install
 pytest tests/ -v
 
 # Run with coverage
-pytest tests/ --cov=src/openblog --cov-report=html
+pytest tests/ --cov=src/pencraft --cov-report=html
 
 # Run specific test file
 pytest tests/unit/test_settings.py -v
@@ -103,8 +103,8 @@ mypy src/
 ## Project Structure
 
 ```
-openblog/
-├── src/openblog/
+pencraft/
+├── src/pencraft/
 │   ├── agents/       # AI agents (research, planner, writer)
 │   ├── config/       # Configuration management
 │   ├── formatters/   # Output formatters (markdown, frontmatter)

@@ -8,7 +8,7 @@ body:
       value: |
         Have a question about OpenBlog? We're here to help!
         
-        Please check the [documentation](https://github.com/suhaibbinyounis/openblog#readme) first.
+        Please check the [documentation](https://github.com/suhaibbinyounis/pencraft#readme) first.
 
   - type: textarea
     id: question

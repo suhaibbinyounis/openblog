@@ -11,7 +11,7 @@ from openai import AsyncOpenAI, OpenAI
 if TYPE_CHECKING:
     from openai.types.chat import ChatCompletion, ChatCompletionChunk
 
-from openblog.config.settings import LLMSettings, get_settings
+from pencraft.config.settings import LLMSettings, get_settings
 
 logger = logging.getLogger(__name__)
 

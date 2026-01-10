@@ -1,8 +1,8 @@
 """Tests for formatters."""
 
-from openblog.formatters.citations import Citation, CitationFormatter
-from openblog.formatters.frontmatter import FrontmatterGenerator
-from openblog.formatters.markdown import MarkdownFormatter
+from pencraft.formatters.citations import Citation, CitationFormatter
+from pencraft.formatters.frontmatter import FrontmatterGenerator
+from pencraft.formatters.markdown import MarkdownFormatter
 
 
 class TestMarkdownFormatter:

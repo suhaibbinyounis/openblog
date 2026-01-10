@@ -6,7 +6,7 @@
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![CI](https://github.com/suhaibbinyounis/openblog/actions/workflows/ci.yml/badge.svg)](https://github.com/suhaibbinyounis/openblog/actions/workflows/ci.yml)
+[![CI](https://github.com/suhaibbinyounis/pencraft/actions/workflows/ci.yml/badge.svg)](https://github.com/suhaibbinyounis/pencraft/actions/workflows/ci.yml)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 
 [Features](#-features) • [Installation](#-installation) • [Quick Start](#-quick-start) • [Configuration](#%EF%B8%8F-configuration) • [Documentation](#-documentation) • [Contributing](#-contributing)
@@ -34,8 +34,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/suhaibbinyounis/openblog.git
-cd openblog
+git clone https://github.com/suhaibbinyounis/pencraft.git
+cd pencraft
 
 # Install the package
 pip install -e .
@@ -47,7 +47,7 @@ pip install -e ".[dev]"
 ### From PyPI (Coming Soon)
 
 ```bash
-pip install openblog
+pip install pencraft
 ```
 
 ## 🚀 Quick Start
@@ -57,7 +57,7 @@ pip install openblog
 ```bash
 # Generate a complete blog post
 # Generate a premium blog post with cover image
-openblog write "The Future of Remote Work" \
+pencraft write "The Future of Remote Work" \
   --words 2000 \
   --cover-image "https://images.unsplash.com/photo-1234.jpg" \
   --output ./blogs \
@@ -65,23 +65,23 @@ openblog write "The Future of Remote Work" \
 
 # Research a topic only
 # Research a topic (includes Google Trends analysis)
-openblog research "AI in Healthcare"
+pencraft research "AI in Healthcare"
 
 # Generate an outline only
-openblog outline "Getting Started with Docker"
+pencraft outline "Getting Started with Docker"
 
 # View current configuration
-openblog config --show
+pencraft config --show
 
 # Create a config file
-openblog config --init
+pencraft config --init
 ```
 
 ### Python API
 
 ```python
-from openblog import Settings
-from openblog.generator import BlogGenerator
+from pencraft import Settings
+from pencraft.generator import BlogGenerator
 
 # Create generator with custom settings
 generator = BlogGenerator(settings=Settings(
@@ -114,7 +114,7 @@ export OPENBLOG_LLM__MODEL="gpt-4"
 
 ### 2. Configuration File
 
-Create `openblog.yaml`:
+Create `pencraft.yaml`:
 
 ```yaml
 llm:
@@ -132,7 +132,7 @@ hugo:
   frontmatter_format: "yaml"
 ```
 
-Use with: `openblog write "Topic" --config openblog.yaml`
+Use with: `pencraft write "Topic" --config pencraft.yaml`
 
 ### LLM Provider Setup
 
@@ -168,8 +168,8 @@ llm:
 ### Project Structure
 
 ```
-openblog/
-├── src/openblog/
+pencraft/
+├── src/pencraft/
 │   ├── agents/         # AI agents (research, planner, writer)
 │   ├── config/         # Configuration management
 │   ├── formatters/     # Markdown, frontmatter, citations
@@ -186,11 +186,11 @@ openblog/
 
 | Command | Description |
 |---------|-------------|
-| `openblog write <topic>` | Generate a complete blog post |
-| `openblog research <topic>` | Research a topic only |
-| `openblog outline <topic>` | Create a blog outline |
-| `openblog config --show` | Display current settings |
-| `openblog config --init` | Create a config file |
+| `pencraft write <topic>` | Generate a complete blog post |
+| `pencraft research <topic>` | Research a topic only |
+| `pencraft outline <topic>` | Create a blog outline |
+| `pencraft config --show` | Display current settings |
+| `pencraft config --init` | Create a config file |
 
 ### Output Example
 
@@ -266,7 +266,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**[⬆ Back to Top](#-openblog)**
+**[⬆ Back to Top](#-pencraft)**
 
 Made with ❤️ by [Suhaib Bin Younis](https://suhaib.in)
 

@@ -7,8 +7,8 @@ to generate a complete blog post from a topic.
 
 from pathlib import Path
 
-from openblog import Settings
-from openblog.generator import BlogGenerator
+from pencraft import Settings
+from pencraft.generator import BlogGenerator
 
 
 def main() -> None:

@@ -25,7 +25,7 @@ def configure_logging(
         debug: Enable debug output (DEBUG level).
 
     Returns:
-        Configured root logger for openblog.
+        Configured root logger for pencraft.
     """
     # Determine log level
     if debug:
@@ -45,8 +45,8 @@ def configure_logging(
     # Create formatter
     formatter = logging.Formatter(format_string, datefmt="%H:%M:%S")
 
-    # Get the openblog logger
-    logger = logging.getLogger("openblog")
+    # Get the pencraft logger
+    logger = logging.getLogger("pencraft")
     logger.setLevel(level)
 
     # Remove existing handlers
@@ -134,14 +134,14 @@ class RichHandler(logging.Handler):
 
 
 def get_logger(name: str) -> logging.Logger:
-    """Get a logger with the openblog namespace.
+    """Get a logger with the pencraft namespace.
 
     Args:
-        name: Logger name (will be prefixed with 'openblog.').
+        name: Logger name (will be prefixed with 'pencraft.').
 
     Returns:
         Logger instance.
     """
-    if not name.startswith("openblog."):
-        name = f"openblog.{name}"
+    if not name.startswith("pencraft."):
+        name = f"pencraft.{name}"
     return logging.getLogger(name)

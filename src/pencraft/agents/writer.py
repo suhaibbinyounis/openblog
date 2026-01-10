@@ -7,18 +7,18 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
-from openblog.agents.base import AgentResult, BaseAgent
-from openblog.agents.planner import BlogOutline, Section
-from openblog.config.defaults import AI_DETECTOR_BLACKLIST
-from openblog.llm.prompts import (
+from pencraft.agents.base import AgentResult, BaseAgent
+from pencraft.agents.planner import BlogOutline, Section
+from pencraft.config.defaults import AI_DETECTOR_BLACKLIST
+from pencraft.llm.prompts import (
     CONCLUSION_PROMPT,
     INTRODUCTION_PROMPT,
     SECTION_PROMPT,
 )
 
 if TYPE_CHECKING:
-    from openblog.config.settings import Settings
-    from openblog.llm.client import LLMClient
+    from pencraft.config.settings import Settings
+    from pencraft.llm.client import LLMClient
 
 logger = logging.getLogger(__name__)
 

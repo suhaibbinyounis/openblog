@@ -2,7 +2,7 @@
 
 import pytest
 
-from openblog.config.settings import Settings
+from pencraft.config.settings import Settings
 
 
 @pytest.fixture

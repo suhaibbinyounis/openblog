@@ -9,8 +9,8 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from openblog.config.settings import Settings
-    from openblog.llm.client import LLMClient
+    from pencraft.config.settings import Settings
+    from pencraft.llm.client import LLMClient
 
 
 logger = logging.getLogger(__name__)
@@ -59,13 +59,13 @@ class BaseAgent(ABC):
         self.name = name or self.__class__.__name__
         self.on_progress = on_progress
 
-        self._logger = logging.getLogger(f"openblog.agents.{self.name}")
+        self._logger = logging.getLogger(f"pencraft.agents.{self.name}")
 
     @property
     def settings(self) -> Settings:
         """Get settings, loading from global if not provided."""
         if self._settings is None:
-            from openblog.config.settings import get_settings
+            from pencraft.config.settings import get_settings
 
             self._settings = get_settings()
         return self._settings

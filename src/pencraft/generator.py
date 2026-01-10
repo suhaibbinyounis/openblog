@@ -9,15 +9,15 @@ from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from openblog.agents.planner import BlogOutline, PlannerAgent
-from openblog.agents.research import ResearchAgent
-from openblog.agents.writer import WriterAgent
-from openblog.formatters.frontmatter import FrontmatterGenerator
-from openblog.formatters.markdown import MarkdownFormatter
-from openblog.llm.client import LLMClient
+from pencraft.agents.planner import BlogOutline, PlannerAgent
+from pencraft.agents.research import ResearchAgent
+from pencraft.agents.writer import WriterAgent
+from pencraft.formatters.frontmatter import FrontmatterGenerator
+from pencraft.formatters.markdown import MarkdownFormatter
+from pencraft.llm.client import LLMClient
 
 if TYPE_CHECKING:
-    from openblog.config.settings import Settings
+    from pencraft.config.settings import Settings
 
 logger = logging.getLogger(__name__)
 
@@ -70,7 +70,7 @@ class BlogGenerator:
             llm_client: LLM client (creates one from settings if None).
         """
         if settings is None:
-            from openblog.config.settings import get_settings
+            from pencraft.config.settings import get_settings
 
             settings = get_settings()
 
@@ -435,7 +435,7 @@ class BlogGenerator:
         Returns:
             BlogOutline object.
         """
-        from openblog.agents.planner import Section
+        from pencraft.agents.planner import Section
 
         sections = []
         for section_data in data.get("sections", []):

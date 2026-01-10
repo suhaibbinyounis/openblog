@@ -12,7 +12,7 @@ from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 
 app = typer.Typer(
-    name="openblog",
+    name="pencraft",
     help="AI-powered blog writing toolkit",
     add_completion=False,
     rich_markup_mode="rich",
@@ -24,7 +24,7 @@ console = Console()
 def version_callback(value: bool) -> None:
     """Print version and exit."""
     if value:
-        from openblog import __version__
+        from pencraft import __version__
 
         console.print(f"[bold blue]OpenBlog[/bold blue] version [green]{__version__}[/green]")
         raise typer.Exit()
@@ -101,11 +101,11 @@ def write(
     """Generate a complete blog post on the given topic.
 
     Example:
-        openblog write "Introduction to Python" --words 3000 --tags python,programming
+        pencraft write "Introduction to Python" --words 3000 --tags python,programming
     """
-    from openblog.config.settings import load_settings
-    from openblog.generator import BlogGenerator
-    from openblog.utils.logging import configure_logging
+    from pencraft.config.settings import load_settings
+    from pencraft.generator import BlogGenerator
+    from pencraft.utils.logging import configure_logging
 
     # Configure logging
     configure_logging(verbose=verbose, debug=debug)
@@ -199,11 +199,11 @@ def research(
     """Research a topic without generating a blog post.
 
     Example:
-        openblog research "Machine Learning trends 2024"
+        pencraft research "Machine Learning trends 2024"
     """
-    from openblog.config.settings import load_settings
-    from openblog.generator import BlogGenerator
-    from openblog.utils.logging import configure_logging
+    from pencraft.config.settings import load_settings
+    from pencraft.generator import BlogGenerator
+    from pencraft.utils.logging import configure_logging
 
     configure_logging(verbose=verbose)
     settings = load_settings(config_file=config_file)
@@ -260,11 +260,11 @@ def outline(
     """Generate a blog outline without writing content.
 
     Example:
-        openblog outline "Getting Started with Docker" --words 3000
+        pencraft outline "Getting Started with Docker" --words 3000
     """
-    from openblog.config.settings import load_settings
-    from openblog.generator import BlogGenerator
-    from openblog.utils.logging import configure_logging
+    from pencraft.config.settings import load_settings
+    from pencraft.generator import BlogGenerator
+    from pencraft.utils.logging import configure_logging
 
     configure_logging()
     settings = load_settings(config_file=config_file)
@@ -316,15 +316,15 @@ def show_config(
     path: Annotated[
         Path,
         typer.Option("--path", "-p", help="Config file path for init"),
-    ] = Path("openblog.yaml"),
+    ] = Path("pencraft.yaml"),
 ) -> None:
     """Show or create configuration.
 
     Example:
-        openblog config --show
-        openblog config --init --path my-config.yaml
+        pencraft config --show
+        pencraft config --init --path my-config.yaml
     """
-    from openblog.config.settings import Settings
+    from pencraft.config.settings import Settings
 
     if init:
         settings = Settings()

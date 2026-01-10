@@ -1,6 +1,6 @@
 """Tests for configuration settings."""
 
-from openblog.config.settings import Settings, load_settings
+from pencraft.config.settings import Settings, load_settings
 
 
 class TestSettings:

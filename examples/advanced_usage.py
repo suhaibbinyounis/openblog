@@ -11,14 +11,14 @@ This example shows:
 
 from pathlib import Path
 
-from openblog import Settings
-from openblog.agents.planner import PlannerAgent
-from openblog.agents.research import ResearchAgent
-from openblog.agents.writer import WriterAgent
-from openblog.formatters.citations import CitationFormatter
-from openblog.formatters.frontmatter import FrontmatterGenerator
-from openblog.generator import BlogGenerator
-from openblog.llm.client import LLMClient
+from pencraft import Settings
+from pencraft.agents.planner import PlannerAgent
+from pencraft.agents.research import ResearchAgent
+from pencraft.agents.writer import WriterAgent
+from pencraft.formatters.citations import CitationFormatter
+from pencraft.formatters.frontmatter import FrontmatterGenerator
+from pencraft.generator import BlogGenerator
+from pencraft.llm.client import LLMClient
 
 
 def step_by_step_generation() -> None:
@@ -71,7 +71,7 @@ def step_by_step_generation() -> None:
     # Step 3: Write content
     print("\n✍️ Step 3: Writing content...")
     writer_agent = WriterAgent(llm_client=llm)
-    from openblog.agents.planner import BlogOutline, Section
+    from pencraft.agents.planner import BlogOutline, Section
 
     blog_outline = BlogOutline(
         title=outline["title"],

@@ -11,7 +11,7 @@ import yaml
 from pydantic import BaseModel, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from openblog.config.defaults import (
+from pencraft.config.defaults import (
     DEFAULT_FRONTMATTER_TEMPLATE,
     DEFAULT_HUGO_FRONTMATTER_FORMAT,
     DEFAULT_LLM_BASE_URL,

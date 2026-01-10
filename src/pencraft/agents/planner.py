@@ -8,12 +8,12 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
-from openblog.agents.base import AgentResult, BaseAgent
-from openblog.llm.prompts import OUTLINE_PROMPT
+from pencraft.agents.base import AgentResult, BaseAgent
+from pencraft.llm.prompts import OUTLINE_PROMPT
 
 if TYPE_CHECKING:
-    from openblog.config.settings import Settings
-    from openblog.llm.client import LLMClient
+    from pencraft.config.settings import Settings
+    from pencraft.llm.client import LLMClient
 
 logger = logging.getLogger(__name__)
 

@@ -86,7 +86,7 @@ class WebScraper:
         self.timeout = timeout
         self.max_content_length = max_content_length
         self.user_agent = user_agent or (
-            "Mozilla/5.0 (compatible; OpenBlog/1.0; +https://github.com/suhaibbinyounis/openblog)"
+            "Mozilla/5.0 (compatible; OpenBlog/1.0; +https://github.com/suhaibbinyounis/pencraft)"
         )
 
         self._client = httpx.Client(

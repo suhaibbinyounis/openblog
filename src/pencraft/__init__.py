@@ -9,6 +9,6 @@ __version__ = "0.1.0"
 __author__ = "Suhaib Bin Younis"
 __license__ = "MIT"
 
-from openblog.config.settings import Settings, get_settings
+from pencraft.config.settings import Settings, get_settings
 
 __all__ = ["Settings", "get_settings", "__version__"]
