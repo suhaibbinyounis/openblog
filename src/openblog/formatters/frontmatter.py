@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 import yaml
@@ -69,10 +69,10 @@ class FrontmatterGenerator:
         """
         # Handle date
         if date is None:
-            date = datetime.now()
+            date = datetime.now(timezone.utc)
         if isinstance(date, datetime):
             # Format: 2026-01-10T10:48:53.098Z
-            # Use 3 digits for milliseconds and always append Z
+            # Use 3 digits for milliseconds and always append Z (UTC)
             date_str = date.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
         else:
             date_str = date
