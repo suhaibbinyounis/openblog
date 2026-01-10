@@ -150,7 +150,7 @@ class FrontmatterGenerator:
             pass
 
         # Force all strings to be unquoted single-line (no folding/literal blocks)
-        def str_representer(dumper: yaml.Dumper, data: str) -> yaml.Node:
+        def str_representer(dumper, data):  # type: ignore[no-untyped-def]
             # Replace newlines with spaces to force single line
             clean_data = data.replace("\n", " ").strip()
             return dumper.represent_scalar("tag:yaml.org,2002:str", clean_data)

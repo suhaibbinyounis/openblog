@@ -13,12 +13,12 @@ from urllib3.util import retry
 if not hasattr(retry.Retry, "method_whitelist"):
     _original_init = retry.Retry.__init__
 
-    def _new_init(self, *args, **kwargs):
+    def _new_init(self, *args, **kwargs):  # type: ignore[no-untyped-def]
         if "method_whitelist" in kwargs:
             kwargs["allowed_methods"] = kwargs.pop("method_whitelist")
         _original_init(self, *args, **kwargs)
 
-    retry.Retry.__init__ = _new_init
+    setattr(retry.Retry, "__init__", _new_init)  # noqa: B010
 
 logger = logging.getLogger(__name__)
 
