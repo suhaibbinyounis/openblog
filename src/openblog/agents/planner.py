@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import logging
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Callable
 
 from openblog.agents.base import AgentResult, BaseAgent
 from openblog.llm.prompts import OUTLINE_PROMPT
@@ -47,6 +47,7 @@ class BlogOutline:
     categories: list[str] = field(default_factory=list)
     target_word_count: int = 2000
     seo_keywords: list[str] = field(default_factory=list)
+    layout_type: str = "deep-dive"  # deep-dive, narrative, analytical, how-to, opinion, listicle
     raw_outline: str = ""
 
     def to_dict(self) -> dict[str, Any]:
@@ -59,6 +60,7 @@ class BlogOutline:
             "categories": self.categories,
             "target_word_count": self.target_word_count,
             "seo_keywords": self.seo_keywords,
+            "layout_type": self.layout_type,
         }
 
     def to_markdown(self) -> str:
@@ -68,6 +70,7 @@ class BlogOutline:
             "",
             f"**Meta Description:** {self.meta_description}",
             "",
+            f"**Layout:** {self.layout_type}",
             f"**Tags:** {', '.join(self.tags)}",
             f"**Categories:** {', '.join(self.categories)}",
             f"**Target Word Count:** {self.target_word_count}",
@@ -100,14 +103,16 @@ class PlannerAgent(BaseAgent):
         self,
         llm_client: LLMClient,
         settings: Settings | None = None,
+        on_progress: Callable[[str], None] | None = None,
     ) -> None:
         """Initialize the planner agent.
 
         Args:
             llm_client: LLM client for AI operations.
             settings: Settings object.
+            on_progress: Callback for progress updates.
         """
-        super().__init__(llm_client, settings, name="PlannerAgent")
+        super().__init__(llm_client, settings, name="PlannerAgent", on_progress=on_progress)
 
     def execute(
         self,
@@ -250,6 +255,7 @@ Outline:
 Return a JSON object with these fields:
 - title: The blog post title
 - meta_description: The meta description (150-160 chars)
+- layout_type: The optimal layout (deep-dive, narrative, analytical, how-to, opinion, listicle)
 - tags: Array of relevant tags
 - categories: Array of categories
 - seo_keywords: Array of SEO keywords
@@ -302,6 +308,7 @@ Return only valid JSON, no other text."""
                 categories=categories,
                 target_word_count=target_word_count,
                 seo_keywords=data.get("seo_keywords", []),
+                layout_type=data.get("layout_type", "deep-dive"),
                 raw_outline=raw_outline,
             )
 
@@ -320,6 +327,7 @@ Return only valid JSON, no other text."""
                 tags=suggested_tags or [topic.lower().replace(" ", "-")],
                 categories=suggested_categories or ["general"],
                 target_word_count=target_word_count,
+                layout_type="deep-dive",
                 raw_outline=raw_outline,
             )
 

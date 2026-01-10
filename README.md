@@ -20,12 +20,13 @@
 | Feature | Description |
 |---------|-------------|
 | 🔍 **Automated Research** | Gathers information from the web with source citations |
-| 📝 **Smart Outlining** | Creates structured, SEO-optimized blog outlines |
-| ✍️ **AI Content Generation** | Generates detailed content section by section |
-| 📄 **Hugo Compatible** | Outputs markdown with YAML/TOML/JSON frontmatter |
+| 📈 **Google Trends** | Validates topics and finds rising/related search queries |
+| 📝 **Smart Outlining** | Dynamically chooses layout (Listicle, Deep Dive, Tutorial) |
+| ✍️ **Premium Writing** | WSJ-style prose, human-like flow, and anti-AI-detection |
+| 📄 **Hugo Compatible** | Outputs markdown with YAML/TOML frontmatter & cover images |
 | ⚙️ **Fully Configurable** | Custom API endpoints, models, prompts, and more |
 | 🔌 **OpenAI Compatible** | Works with any OpenAI-compatible API (local or cloud) |
-| 🎨 **Beautiful CLI** | Rich terminal output with progress indicators |
+| 🎨 **Beautiful CLI** | Rich terminal output with real-time progress indicators |
 
 ## 📦 Installation
 
@@ -55,9 +56,15 @@ pip install openblog
 
 ```bash
 # Generate a complete blog post
-openblog write "Introduction to Machine Learning" --words 2500 --output ./blogs
+# Generate a premium blog post with cover image
+openblog write "The Future of Remote Work" \
+  --words 2000 \
+  --cover-image "https://images.unsplash.com/photo-1234.jpg" \
+  --output ./blogs \
+  --verbose
 
 # Research a topic only
+# Research a topic (includes Google Trends analysis)
 openblog research "AI in Healthcare"
 
 # Generate an outline only

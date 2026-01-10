@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Generate AI agent development tutorial blogs.
+"""Generate Anime x AI deep dive blogs.
 
-Detailed, production-ready technical blogs about building AI agents from scratch.
+Exploring the intersection of Japanese animation and artificial intelligence.
 """
 
 import warnings
@@ -15,68 +15,77 @@ from openblog import Settings
 from openblog.generator import BlogGenerator
 
 
-# High-CPC, Viral Blog Topics for 2026 (Insurance, Cars, Tech)
-# Focused on high ad revenue keywords and high CTR titles
+# Anime x AI Deep Dives: Where Japanese Animation Meets Artificial Intelligence
+# Exploring how anime predicted, influenced, and now collaborates with AI technology
 BLOG_TOPICS = [
-    # 1. EV Insurance (High CPC + Auto)
+    # 1. AI-Powered Anime Production
     {
-        "topic": "The 2026 EV Insurance Crisis: Why Tesla & Rivian Owners Are Paying 300% More (And How to Fix It)",
-        "tags": ["car-insurance", "tesla", "ev-insurance", "auto-finance", "2026-cars"],
-        "categories": ["Auto Insurance", "Electric Vehicles"],
+        "topic": "The AI Animation Revolution: How Studios Like WIT and MAPPA Are Using Machine Learning to Create Breathtaking Scenes",
+        "tags": ["anime-production", "ai-animation", "machine-learning", "studio-workflows", "visual-effects"],
+        "categories": ["Anime Industry", "AI in Entertainment"],
     },
-    # 2. Tech/Smartphones (High Volume)
+    
+    # 2. Anime's AI Prophecies
     {
-        "topic": "The $10,000 Smartphone Era: iPhone 18 Ultra Review - Is It Finally Worth Selling Your Car For?",
-        "tags": ["iphone-18", "luxury-tech", "smartphone-reviews", "tech-trends-2026", "apple"],
-        "categories": ["Tech Reviews", "Smartphones"],
+        "topic": "Ghost in the Shell to Psycho-Pass: How Anime Predicted AI's Ethical Dilemmas 30 Years Before ChatGPT",
+        "tags": ["ghost-in-the-shell", "psycho-pass", "ai-ethics", "science-fiction", "cyberpunk"],
+        "categories": ["Anime Analysis", "AI Philosophy"],
     },
-    # 3. Life/Digital Insurance (Emerging High CPC)
+    
+    # 3. Virtual Idols & AI Companions
     {
-        "topic": "Digital Immortality Insurance: The New Multi-Million Dollar Policy Every Tech CEO Needs in 2026",
-        "tags": ["life-insurance", "digital-legacy", "tech-wealth", "estate-planning", "future-finance"],
-        "categories": ["Insurance", "Wealth Management"],
+        "topic": "From Hatsune Miku to AI Waifus: The Evolution of Virtual Characters and What It Means for Human Connection",
+        "tags": ["vtubers", "virtual-idols", "ai-companions", "hatsune-miku", "character-ai"],
+        "categories": ["Virtual Entertainment", "AI Psychology"],
     },
-    # 4. Auto Technology (Clickbait + Tech)
+    
+    # 4. AI Art & The Anime Style
     {
-        "topic": "Solid State Batteries Are Finally Here: 5 EVs With 1000+ Mile Range Launching in Q4 2026",
-        "tags": ["solid-state-battery", "ev-range", "future-cars", "toyota-ev", "car-tech"],
-        "categories": ["Automotive", "Green Tech"],
+        "topic": "Why AI Art Models Are Obsessed With Anime: The Technical Reason Behind Stable Diffusion's 'Anime Style' Dominance",
+        "tags": ["stable-diffusion", "ai-art", "anime-style", "training-data", "imagen-generation"],
+        "categories": ["AI Art", "Anime Aesthetics"],
     },
-    # 5. Home/Cyber Insurance (Niche High CPC)
+    
+    # 5. The Tachikoma Paradox
     {
-        "topic": "Your Fridge Was Hacked: Why Homeowners Cyber Insurance is the Only Policy That Matters This Year",
-        "tags": ["home-insurance", "cyber-insurance", "smart-home-security", "iot-risks", "insurance-tips"],
-        "categories": ["Insurance", "Cybersecurity"],
+        "topic": "The Tachikoma Paradox: What Ghost in the Shell's Thinking Tanks Teach Us About Emergent AI Consciousness",
+        "tags": ["tachikoma", "ghost-in-the-shell", "ai-consciousness", "emergent-behavior", "swarm-intelligence"],
+        "categories": ["Anime Philosophy", "AI Research"],
     },
-    # 6. Future Tech (Viral)
+    
+    # 6. Anime Voice Synthesis
     {
-        "topic": "Goodbye Screens? We Tested the AR Contact Lenses That Will Kill the iPhone by 2027",
-        "tags": ["ar-glasses", "future-tech", "augmented-reality", "wearables", "tech-killers"],
-        "categories": ["Future Tech", "Wearables"],
+        "topic": "AI Voice Cloning in Anime: How RVC and VITS Are Preserving Legendary Seiyuu Performances Forever",
+        "tags": ["voice-synthesis", "seiyuu", "rvc", "vits", "voice-cloning"],
+        "categories": ["Audio AI", "Anime Production"],
     },
-    # 7. Medical/Health Insurance (Very High CPC)
+    
+    # 7. Real-Time Anime Filters
     {
-        "topic": "AI vs. Your Doctor: Why Health Insurance Companies Are Denying Claims Based on Algorithms in 2026",
-        "tags": ["health-insurance", "medical-ai", "insurance-claims", "healthcare-crisis", "patient-rights"],
-        "categories": ["Health Insurance", "AI Policy"],
+        "topic": "From Face to Anime: The Deep Learning Behind Real-Time Anime Filter Apps and VTuber Technology",
+        "tags": ["face-tracking", "live2d", "vtuber-tech", "neural-style-transfer", "real-time-ai"],
+        "categories": ["VTuber Technology", "Computer Vision"],
     },
-    # 8. Luxury Cars (High Ticket)
+    
+    # 8. AI Dungeon Masters & Isekai
     {
-        "topic": "Flying Cars or Death Traps? The Alef Model A Test Flight Review - Legal, Safe, or Insane?",
-        "tags": ["flying-cars", "luxury-auto", "future-transport", "car-reviews-2026", "tech-innovation"],
-        "categories": ["Automotive", "Luxury Tech"],
+        "topic": "Isekai for Everyone: How AI Game Masters Are Creating Infinite Anime-Inspired Fantasy Worlds",
+        "tags": ["ai-dungeon", "isekai", "procedural-generation", "narrative-ai", "game-masters"],
+        "categories": ["AI Gaming", "Anime Genres"],
     },
-    # 9. Business/Liability Insurance (B2B High CPC)
+    
+    # 9. The Evangelion Problem
     {
-        "topic": "The CEO's Nightmare: Why AI Liability Insurance is Essential for Every Business Using ChatGPT-6",
-        "tags": ["business-insurance", "ai-liability", "corporate-law", "risk-management", "startup-tips"],
-        "categories": ["Business Insurance", "Enterprise AI"],
+        "topic": "The Evangelion Problem: Why AI Still Cannot Write Psychologically Complex Anime Narratives",
+        "tags": ["evangelion", "narrative-ai", "psychological-depth", "character-writing", "llm-limitations"],
+        "categories": ["Anime Writing", "AI Creativity"],
     },
-    # 10. Crypto/Tech Finance (Volatile/High Interest)
+    
+    # 10. Anime Recommendation Engines
     {
-        "topic": "Quantum Laptops & Cardio: How Mining Crypto on Your Watch is Paying for Gym Memberships in 2026",
-        "tags": ["crypto-mining", "wearable-tech", "passive-income", "quantum-tech", "fintech"],
-        "categories": ["FinTech", "Cryptocurrency"],
+        "topic": "Beyond MyAnimeList: How Modern AI Recommendation Systems Actually Understand Your Anime Taste",
+        "tags": ["recommendation-systems", "collaborative-filtering", "myanimelist", "taste-modeling", "content-discovery"],
+        "categories": ["AI Applications", "Anime Community"],
     },
 ]
 
@@ -85,7 +94,7 @@ def main() -> None:
     """Generate AI agent tutorial blog posts."""
     
     # Create output directory
-    output_dir = Path("./output/high-cpc-2026-blogs")
+    output_dir = Path("./output/anime-ai-2026-blogs")
     output_dir.mkdir(parents=True, exist_ok=True)
     
     # Create settings for long-form content
@@ -93,18 +102,18 @@ def main() -> None:
         llm={
             "base_url": "http://localhost:3030/v1",
             "api_key": "dummy-key",
-            "temperature": 0.8,  # Slightly higher for creativity/clickbait
+            "temperature": 0.5,  # Moderate temperature for balanced creativity/accuracy
             "max_tokens": 8192,
         },
         blog={
-            "min_word_count": 2500,
-            "max_word_count": 4500,
+            "min_word_count": 3000,
+            "max_word_count": 5000,
             "include_toc": True,
             "include_citations": True,
         },
         research={
-            "max_search_results": 10,
-            "max_sources": 5,
+            "max_search_results": 15,  # More research for deep dives
+            "max_sources": 8,
         },
         hugo={
             "frontmatter_format": "yaml",
@@ -119,9 +128,9 @@ def main() -> None:
     generator = BlogGenerator(settings=settings)
     
     print("=" * 70)
-    print("� OpenBlog High-CPC Content Generator")
+    print("🎌 OpenBlog: Anime x AI Deep Dive Generator")
     print("=" * 70)
-    print(f"📝 Generating {len(BLOG_TOPICS)} viral blog posts...")
+    print(f"📝 Generating {len(BLOG_TOPICS)} technical deep-dive posts...")
     print(f"📂 Output directory: {output_dir.absolute()}")
     print("=" * 70)
     
@@ -138,41 +147,46 @@ def main() -> None:
         try:
             start_time = time.time()
             
-            # Context for High-CPC, Viral, Authority Content
+            # Context for Anime x AI Deep Dives
             additional_context = """
-            CRITICAL INSTRUCTIONS FOR HIGH-CPC, CLICKBAIT-STYLE BLOG GENERATION:
+            CRITICAL INSTRUCTIONS FOR ANIME x AI DEEP DIVES:
             
-            This blog post needs to strike a perfect balance: **Viral/Clickbaity Title & Hooks** combined with **Deep, Authoritative, High-Value Content**.
+            This blog post must be a **rigorous, intellectual deep dive** exploring the fascinating intersection of Japanese animation (anime) and artificial intelligence.
             
-            Key Objectives:
-            1. **Maximize CTR & Time on Page**: Use punchy short sentences, controversial (but defensible) takes, and "Open Loops" that keep people reading.
-            2. **High CPC Keyword Optimization**: Naturally weave in high-value terms like "best insurance rates", "top rated evs", "premium coverage", "investment advice" where relevant.
-            3. **2026 Future-Proofing**: Write from the perspective of 2026. The tech is here. The problems are real. Be confident in your predictions.
+            **Key Objectives:**
+            1.  **Cultural & Technical Depth**: Respect the rich history of anime while explaining AI concepts. Reference specific anime titles, studios, directors (Mamoru Oshii, Hideaki Anno, Makoto Shinkai, etc.), and technical achievements.
+            2.  **Dual Expertise**: Write for readers who love both anime AND technology. Balance otaku culture references with solid AI/ML explanations.
+            3.  **No Shallow Takes**: Avoid surface-level "AI is cool" or "anime is art" statements. Dig into the HOW and WHY.
+            4.  **Academic/Industry Rigor**: Reference actual papers, interviews with studio heads, technical breakdowns of animation software, and AI research from Japan and abroad.
             
-            Tone & Style:
-            - **Voice**: Provocative, Insider-Knowledge, Fast-Paced, yet Trustworthy. Think "The Verge" meets "Wall Street Journal" but deeper.
-            - **Formatting**: Heavy use of bolding for key phrases. Short paragraphs. Bullet points for "Pros/Cons" or "Key Stats".
-            - **No Fluff**: Every sentence must add value or build hype.
+            **Structure & Tone:**
+            -   **Tone**: Passionate but analytical. Like a well-researched video essay from a channel like "Mother's Basement" or "Digibro" meets an AI researcher.
+            -   **Cultural Sensitivity**: Acknowledge Japanese cultural context. Use proper terminology (sakuga, seiyuu, isekai) with brief explanations.
+            -   **Content**: 
+                -   Start with an engaging hook that connects anime fans to the AI topic.
+                -   Include a "Technical Breakdown" section with specifics.
+                -   Include "Cultural Impact" analysis.
+                -   End with "Future Implications" for both industries.
             
-            Structure:
-            1. **The "Pattern Interrupt" Intro**: Start with a shocking stat or a strong statement. (e.g., "If you own a Tesla in 2026, you're losing money.")
-            2. **The "Meat"**: Deep dive into the specs, the policies, the actual numbers. Compare specific models/plans.
-            3. **The "Wallet Impact"**: Always bring it back to money/value. Is it worth it? What's the ROI?
-            4. **Verdict**: A clear, decisive conclusion.
+            **Negative Constraints (The "Veto"):**
+            -   AVOID: Generic introductions ("Anime has always been popular...")
+            -   AVOID: Shallow AI explanations ("AI is just machine learning...")
+            -   AVOID: Dismissive takes on either anime or AI culture
+            -   AVOID: Clickbait styling or unnecessary sensationalism
             
-            Do NOT use placeholders. Generate specific fictional (but realistic) stats, prices, and model names if real ones for 2026 don't exist yet. Make it feel REAL.
+            Make it a piece that both anime fans and AI practitioners would bookmark and share.
             """
             
             blog = generator.generate(
                 topic=topic,
                 additional_context=additional_context,
-                target_word_count=3500,
+                target_word_count=4000,
                 tags=tags,
                 categories=categories,
                 author="Suhaib Bin Younis",
                 draft=False,
                 output_dir=output_dir,
-                skip_research=False,  # Enable web research for accurate content
+                skip_research=False, 
             )
             
             elapsed = time.time() - start_time

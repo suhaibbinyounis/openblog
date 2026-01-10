@@ -81,6 +81,10 @@ def write(
         bool,
         typer.Option("--skip-research", help="Skip research phase"),
     ] = False,
+    cover_image: Annotated[
+        str | None,
+        typer.Option("--cover-image", help="Cover image URL"),
+    ] = None,
     config_file: Annotated[
         Path | None,
         typer.Option("--config", help="Path to config file"),
@@ -135,6 +139,10 @@ def write(
         ) as progress:
             task = progress.add_task("Generating blog post...", total=None)
 
+            def update_spinner(msg: str) -> None:
+                """Update spinner description."""
+                progress.update(task, description=msg)
+
             blog = generator.generate(
                 topic=topic,
                 target_word_count=words,
@@ -144,6 +152,8 @@ def write(
                 draft=draft,
                 output_dir=output,
                 skip_research=skip_research,
+                cover_image=cover_image,
+                progress_callback=update_spinner,
             )
 
             progress.update(task, completed=True)
@@ -209,8 +219,16 @@ def research(
             console=console,
             transient=True,
         ) as progress:
-            progress.add_task("Researching...", total=None)
-            research_summary = generator.research_only(topic)
+            task = progress.add_task("Researching...", total=None)
+
+            def update_spinner(msg: str) -> None:
+                """Update spinner description."""
+                progress.update(task, description=msg)
+
+            research_summary = generator.research_only(
+                topic,
+                progress_callback=update_spinner,
+            )
 
         console.print(Panel(research_summary, title="Research Summary", border_style="blue"))
 
@@ -262,8 +280,17 @@ def outline(
             console=console,
             transient=True,
         ) as progress:
-            progress.add_task("Creating outline...", total=None)
-            blog_outline = generator.outline_only(topic, target_word_count=words)
+            task = progress.add_task("Creating outline...", total=None)
+
+            def update_spinner(msg: str) -> None:
+                """Update spinner description."""
+                progress.update(task, description=msg)
+
+            blog_outline = generator.outline_only(
+                topic,
+                target_word_count=words,
+                progress_callback=update_spinner,
+            )
 
         console.print(Panel(blog_outline.to_markdown(), title="Blog Outline", border_style="blue"))
 

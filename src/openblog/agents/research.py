@@ -10,6 +10,7 @@ from openblog.agents.base import AgentResult, BaseAgent
 from openblog.llm.prompts import RESEARCH_PROMPT
 from openblog.tools.scraper import ScrapedContent, WebScraper
 from openblog.tools.search import SearchResult, SearchTool
+from openblog.tools.trends import TrendsData, TrendsTool
 
 if TYPE_CHECKING:
     from openblog.config.settings import Settings
@@ -28,6 +29,7 @@ class ResearchData:
     key_points: list[str] = field(default_factory=list)
     search_results: list[SearchResult] = field(default_factory=list)
     scraped_content: list[ScrapedContent] = field(default_factory=list)
+    trends_data: TrendsData | None = None
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
@@ -38,6 +40,7 @@ class ResearchData:
             "key_points": self.key_points,
             "search_results": [r.to_dict() for r in self.search_results],
             "scraped_content": [c.to_dict() for c in self.scraped_content],
+            "trends_data": self.trends_data.to_dict() if self.trends_data else None,
         }
 
 
@@ -54,6 +57,8 @@ class ResearchAgent(BaseAgent):
         settings: Settings | None = None,
         search_tool: SearchTool | None = None,
         scraper: WebScraper | None = None,
+        trends_tool: TrendsTool | None = None,
+        on_progress: Callable[[str], None] | None = None,
     ) -> None:
         """Initialize the research agent.
 
@@ -62,13 +67,16 @@ class ResearchAgent(BaseAgent):
             settings: Settings object.
             search_tool: Custom search tool (uses default if None).
             scraper: Custom web scraper (uses default if None).
+            trends_tool: Custom trends tool (uses default if None).
+            on_progress: Callback for progress updates.
         """
-        super().__init__(llm_client, settings, name="ResearchAgent")
+        super().__init__(llm_client, settings, name="ResearchAgent", on_progress=on_progress)
 
         self.search_tool = search_tool or SearchTool(
             max_results=self.settings.research.max_search_results
         )
         self.scraper = scraper or WebScraper()
+        self.trends_tool = trends_tool or TrendsTool()
 
     def execute(
         self,
@@ -77,6 +85,7 @@ class ResearchAgent(BaseAgent):
         additional_context: str = "",
         search_queries: list[str] | None = None,
         scrape_top_n: int = 3,
+        use_trends: bool = True,
     ) -> AgentResult:
         """Execute research on a topic.
 
@@ -85,6 +94,7 @@ class ResearchAgent(BaseAgent):
             additional_context: Additional context or requirements.
             search_queries: Custom search queries (auto-generated if None).
             scrape_top_n: Number of top results to scrape for content.
+            use_trends: Whether to fetch Google Trends data.
 
         Returns:
             AgentResult with ResearchData in metadata.
@@ -92,16 +102,38 @@ class ResearchAgent(BaseAgent):
         try:
             self.log(f"Starting research on: {topic}")
 
+            # Fetch Google Trends data first
+            trends_data: TrendsData | None = None
+            trends_queries: list[str] = []
+            if use_trends:
+                self.log("📊 Fetching Google Trends data...")
+                try:
+                    trends_data = self.trends_tool.get_trends_data(topic)
+                    if trends_data.interest_score > 0:
+                        self.log(f"   Interest score: {trends_data.interest_score}/100")
+                    if trends_data.is_trending:
+                        self.log("   📈 Topic is currently trending!")
+                    # Use rising queries to enhance search
+                    trends_queries = trends_data.rising_queries[:3]
+                    if trends_queries:
+                        self.log(f"   Found {len(trends_data.rising_queries)} rising queries")
+                except Exception as e:
+                    self.log(f"   ⚠️ Trends lookup failed: {e}")
+
             # Generate search queries if not provided
             if not search_queries:
                 search_queries = self._generate_search_queries(topic)
+                # Enhance with trends-based queries
+                if trends_queries:
+                    search_queries = search_queries[:3] + trends_queries
 
             # Perform searches
             all_results: list[SearchResult] = []
             for query in search_queries:
+                self.log(f"🔍 Searching: {query}")
                 results = self.search_tool.search(query)
                 all_results.extend(results)
-                self.log(f"Search '{query}': {len(results)} results")
+                self.log(f"   Found {len(results)} results")
 
             # Deduplicate by URL
             seen_urls: set[str] = set()
@@ -116,17 +148,22 @@ class ResearchAgent(BaseAgent):
             # Scrape top results for full content
             scraped_content: list[ScrapedContent] = []
             for result in unique_results[:scrape_top_n]:
+                self.log(f"🌐 Scraping: {result.url}")
                 content = self.scraper.scrape(result.url)
                 if content.success:
                     scraped_content.append(content)
-                    self.log(f"Scraped {result.url}: {content.word_count} words")
+                    self.log(f"   ✓ {content.word_count} words extracted")
+                else:
+                    self.log(f"   ✗ Failed to scrape")
 
             # Synthesize research using LLM
+            self.log("✍️ Synthesizing research summary...")
             research_summary = self._synthesize_research(
                 topic=topic,
                 search_results=unique_results,
                 scraped_content=scraped_content,
                 additional_context=additional_context,
+                trends_data=trends_data,
             )
 
             # Extract sources for citations
@@ -139,6 +176,7 @@ class ResearchAgent(BaseAgent):
                 sources=sources,
                 search_results=unique_results[: self.settings.research.max_sources],
                 scraped_content=scraped_content,
+                trends_data=trends_data,
             )
 
             self.log("Research completed successfully")
@@ -275,6 +313,7 @@ Return only the search queries, one per line, without numbering or explanation."
         search_results: list[SearchResult],
         scraped_content: list[ScrapedContent],
         additional_context: str,
+        trends_data: TrendsData | None = None,
     ) -> str:
         """Synthesize research data into a summary.
 
@@ -283,6 +322,7 @@ Return only the search queries, one per line, without numbering or explanation."
             search_results: Search results.
             scraped_content: Scraped web content.
             additional_context: Additional context.
+            trends_data: Optional Google Trends data.
 
         Returns:
             Synthesized research summary.
@@ -297,6 +337,11 @@ Return only the search queries, one per line, without numbering or explanation."
             if c.success
         )
 
+        # Prepare trends context
+        trends_context = ""
+        if trends_data and trends_data.interest_score > 0:
+            trends_context = trends_data.to_research_context()
+
         prompt = RESEARCH_PROMPT.format(
             topic=topic,
             additional_context=additional_context or "No additional context provided.",
@@ -309,6 +354,14 @@ Return only the search queries, one per line, without numbering or explanation."
 
 ## Scraped Content:
 {scraped_context}"""
+
+        if trends_context:
+            full_prompt += f"""
+
+## Google Trends Insights:
+{trends_context}
+
+Use these trending queries and topics to ensure the content covers what readers are actively searching for."""
 
         return self._generate(
             full_prompt,

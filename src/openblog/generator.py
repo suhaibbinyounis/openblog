@@ -6,7 +6,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Callable
 
 from openblog.agents.planner import BlogOutline, PlannerAgent
 from openblog.agents.research import ResearchAgent
@@ -107,6 +107,8 @@ class BlogGenerator:
         skip_research: bool = False,
         custom_outline: BlogOutline | None = None,
         custom_research: str | None = None,
+        cover_image: str | None = None,
+        progress_callback: Callable[[str], None] | None = None,
     ) -> GeneratedBlog:
         """Generate a complete blog post.
 
@@ -122,7 +124,9 @@ class BlogGenerator:
             filename: Output filename (auto-generated if None).
             skip_research: Skip research phase (use custom_research).
             custom_outline: Skip planning, use this outline.
+            custom_outline: Skip planning, use this outline.
             custom_research: Skip research, use this summary.
+            cover_image: Cover image URL.
 
         Returns:
             GeneratedBlog with complete content.
@@ -135,7 +139,16 @@ class BlogGenerator:
 
         target_word_count = target_word_count or self.settings.blog.min_word_count
         tags = tags or self.settings.blog.default_tags.copy()
+        target_word_count = target_word_count or self.settings.blog.min_word_count
+        tags = tags or self.settings.blog.default_tags.copy()
         categories = categories or self.settings.blog.default_categories.copy()
+        cover_image = cover_image or self.settings.blog.default_cover_image
+
+        # Assign progress callback to agents
+        if progress_callback:
+            self.research_agent.on_progress = progress_callback
+            self.planner_agent.on_progress = progress_callback
+            self.writer_agent.on_progress = progress_callback
 
         # Phase 1: Research
         if custom_research:
@@ -203,7 +216,9 @@ class BlogGenerator:
             categories=outline.categories or categories,
             author=author,
             slug=self.md_formatter.slugify(outline.title),
+
             toc=self.settings.blog.include_toc,
+            featured_image=cover_image,
         )
 
         # Add optional TOC
@@ -262,6 +277,8 @@ class BlogGenerator:
         skip_research: bool = False,
         custom_outline: BlogOutline | None = None,
         custom_research: str | None = None,
+        cover_image: str | None = None,
+        progress_callback: Callable[[str], None] | None = None,
     ) -> GeneratedBlog:
         """Generate a blog post asynchronously.
 
@@ -276,6 +293,13 @@ class BlogGenerator:
         target_word_count = target_word_count or self.settings.blog.min_word_count
         tags = tags or self.settings.blog.default_tags.copy()
         categories = categories or self.settings.blog.default_categories.copy()
+        cover_image = cover_image or self.settings.blog.default_cover_image
+
+        # Assign progress callback to agents
+        if progress_callback:
+            self.research_agent.on_progress = progress_callback
+            self.planner_agent.on_progress = progress_callback
+            self.writer_agent.on_progress = progress_callback
 
         # Phase 1: Research
         if custom_research:
@@ -335,6 +359,7 @@ class BlogGenerator:
             author=author,
             slug=self.md_formatter.slugify(outline.title),
             toc=self.settings.blog.include_toc,
+            featured_image=cover_image,
         )
 
         # Add TOC if enabled
@@ -444,6 +469,7 @@ class BlogGenerator:
         self,
         topic: str,
         additional_context: str = "",
+        progress_callback: Callable[[str], None] | None = None,
     ) -> str:
         """Perform research only.
 
@@ -454,6 +480,9 @@ class BlogGenerator:
         Returns:
             Research summary.
         """
+        if progress_callback:
+            self.research_agent.on_progress = progress_callback
+
         result = self.research_agent.execute(
             topic=topic,
             additional_context=additional_context,
@@ -467,6 +496,7 @@ class BlogGenerator:
         topic: str,
         research_summary: str = "",
         target_word_count: int | None = None,
+        progress_callback: Callable[[str], None] | None = None,
     ) -> BlogOutline:
         """Create outline only.
 
@@ -478,6 +508,9 @@ class BlogGenerator:
         Returns:
             BlogOutline object.
         """
+        if progress_callback:
+            self.planner_agent.on_progress = progress_callback
+
         if not research_summary:
             research_summary = f"Topic: {topic}"
 

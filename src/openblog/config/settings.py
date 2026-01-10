@@ -159,6 +159,10 @@ class BlogSettings(BaseModel):
         default_factory=list,
         description="Default tags for all posts",
     )
+    default_cover_image: str | None = Field(
+        default=None,
+        description="Default cover image URL for blog posts",
+    )
     default_categories: list[str] = Field(
         default_factory=list,
         description="Default categories for all posts",

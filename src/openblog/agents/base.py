@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
     from openblog.config.settings import Settings
@@ -44,6 +44,7 @@ class BaseAgent(ABC):
         llm_client: LLMClient,
         settings: Settings | None = None,
         name: str | None = None,
+        on_progress: Callable[[str], None] | None = None,
     ) -> None:
         """Initialize the base agent.
 
@@ -55,7 +56,8 @@ class BaseAgent(ABC):
         self.llm = llm_client
         self._settings = settings
         self.name = name or self.__class__.__name__
-
+        self.on_progress = on_progress
+        
         self._logger = logging.getLogger(f"openblog.agents.{self.name}")
 
     @property
@@ -103,6 +105,9 @@ class BaseAgent(ABC):
             level: Logging level.
         """
         self._logger.log(level, f"[{self.name}] {message}")
+        
+        if self.on_progress and level >= logging.INFO:
+            self.on_progress(message)
 
     def _handle_error(self, error: Exception, context: str = "") -> AgentResult:
         """Handle an error and return a failure result.

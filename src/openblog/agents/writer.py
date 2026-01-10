@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Callable
 
 from openblog.agents.base import AgentResult, BaseAgent
 from openblog.agents.planner import BlogOutline, Section
@@ -13,6 +13,7 @@ from openblog.llm.prompts import (
     INTRODUCTION_PROMPT,
     SECTION_PROMPT,
 )
+from openblog.config.defaults import AI_DETECTOR_BLACKLIST
 
 if TYPE_CHECKING:
     from openblog.config.settings import Settings
@@ -58,14 +59,16 @@ class WriterAgent(BaseAgent):
         self,
         llm_client: LLMClient,
         settings: Settings | None = None,
+        on_progress: Callable[[str], None] | None = None,
     ) -> None:
         """Initialize the writer agent.
 
         Args:
             llm_client: LLM client for AI operations.
             settings: Settings object.
+            on_progress: Callback for progress updates.
         """
-        super().__init__(llm_client, settings, name="WriterAgent")
+        super().__init__(llm_client, settings, name="WriterAgent", on_progress=on_progress)
 
     def execute(
         self,
@@ -87,7 +90,7 @@ class WriterAgent(BaseAgent):
             AgentResult with BlogPost in metadata.
         """
         try:
-            self.log(f"Writing blog post: {outline.title}")
+            self.log(f"Writing blog post: {outline.title} ({outline.layout_type} layout)")
 
             sources = sources or []
             sections: dict[str, str] = {}
@@ -100,6 +103,7 @@ class WriterAgent(BaseAgent):
             # Write introduction
             self.log("Writing introduction...")
             intro = self._write_introduction(outline, words_per_section)
+            self._check_style(intro, "Introduction")
             sections["introduction"] = intro
             content_parts.append(intro)
 
@@ -115,6 +119,7 @@ class WriterAgent(BaseAgent):
                     previous_content=previous_content,
                     target_words=words_per_section,
                 )
+                self._check_style(section_content, f"Section: {section.title}")
 
                 sections[section.title] = section_content
                 content_parts.append(f"\n## {section.title}\n\n{section_content}")
@@ -123,6 +128,7 @@ class WriterAgent(BaseAgent):
             # Write conclusion
             self.log("Writing conclusion...")
             conclusion = self._write_conclusion(outline, content_parts)
+            self._check_style(conclusion, "Conclusion")
             sections["conclusion"] = conclusion
             content_parts.append(f"\n## Conclusion\n\n{conclusion}")
 
@@ -459,3 +465,29 @@ Write engaging, informative content using proper markdown formatting."""
             prompt,
             system_prompt=self.settings.prompts.writer_system,
         )
+
+    def _check_style(self, content: str, section_name: str) -> None:
+        """Check content against style guidelines and blacklist.
+
+        Args:
+            content: Generated content to check.
+            section_name: Name of the section being checked.
+        """
+        if not content:
+            return
+
+        warnings = []
+        lower_content = content.lower()
+
+        # Check against blacklist
+        for phrase in AI_DETECTOR_BLACKLIST:
+            if phrase.lower() in lower_content:
+                warnings.append(f"Found banned phrase: '{phrase}'")
+
+        if warnings:
+            self.log(
+                f"⚠️ Style warnings in {section_name}: {', '.join(warnings)}",
+                level=logging.WARNING,
+            )
+        else:
+            self.log(f"✅ Style check passed for {section_name}")
