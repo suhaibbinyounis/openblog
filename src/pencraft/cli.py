@@ -368,5 +368,166 @@ def show_config(
         console.print(table)
 
 
+@app.command()
+def enhance(
+    path: Annotated[Path, typer.Argument(help="File or directory to enhance")],
+    words: Annotated[
+        int,
+        typer.Option("--words", "-w", help="Minimum target word count"),
+    ] = 3000,
+    recursive: Annotated[
+        bool,
+        typer.Option("--recursive", "-r", help="Process subdirectories"),
+    ] = False,
+    no_backup: Annotated[
+        bool,
+        typer.Option("--no-backup", help="Skip backup of original files"),
+    ] = False,
+    no_trends: Annotated[
+        bool,
+        typer.Option("--no-trends", help="Skip Google Trends lookup"),
+    ] = False,
+    no_seo: Annotated[
+        bool,
+        typer.Option("--no-seo", help="Skip SEO optimization"),
+    ] = False,
+    config_file: Annotated[
+        Path | None,
+        typer.Option("--config", help="Path to config file"),
+    ] = None,
+    verbose: Annotated[
+        bool,
+        typer.Option("--verbose", help="Enable verbose output"),
+    ] = False,
+) -> None:
+    """Enhance existing blog posts for SEO, quality, and revenue.
+
+    Can process a single file or an entire directory of markdown files.
+
+    Example:
+        pencraft enhance ./my-blog.md --words 4000
+        pencraft enhance ./blogs/ --recursive --words 3000
+    """
+    from pencraft.config.settings import load_settings
+    from pencraft.enhancer import BlogEnhancer
+    from pencraft.utils.logging import configure_logging
+
+    configure_logging(verbose=verbose)
+    settings = load_settings(config_file=config_file)
+
+    path = Path(path)
+
+    if not path.exists():
+        console.print(f"[bold red]Error:[/bold red] Path not found: {path}")
+        raise typer.Exit(code=1)
+
+    console.print(
+        Panel(
+            f"[bold]Enhancing blog posts[/bold]\n\n"
+            f"Path: [cyan]{path}[/cyan]\n"
+            f"Target: [yellow]{words}[/yellow] words minimum\n"
+            f"Backup: [{'green' if not no_backup else 'red'}]{'Enabled' if not no_backup else 'Disabled'}[/]\n"
+            f"Trends: [{'green' if not no_trends else 'red'}]{'Enabled' if not no_trends else 'Disabled'}[/]\n"
+            f"SEO: [{'green' if not no_seo else 'red'}]{'Enabled' if not no_seo else 'Disabled'}[/]",
+            title="[bold blue]Pencraft Enhance[/bold blue]",
+            border_style="blue",
+        )
+    )
+
+    try:
+        # Progress callback for spinner
+        def on_progress(msg: str) -> None:
+            console.print(f"  [dim]►[/dim] {msg}")
+
+        enhancer = BlogEnhancer(settings=settings, on_progress=on_progress)
+
+        if path.is_file():
+            # Single file enhancement
+            console.print(f"\n[bold]Enhancing:[/bold] {path.name}")
+
+            result = enhancer.enhance(
+                path,
+                target_word_count=words,
+                improve_seo=not no_seo,
+                use_trends=not no_trends,
+                backup=not no_backup,
+            )
+
+            if result.error:
+                console.print(f"[bold red]Error:[/bold red] {result.error}")
+                raise typer.Exit(code=1)
+
+            # Display results
+            console.print()
+            console.print(
+                Panel(
+                    f"[bold green]✓ Enhancement complete![/bold green]\n\n"
+                    f"File: [blue]{result.file_path.name}[/blue]\n"
+                    f"Words: [yellow]{result.original_word_count}[/yellow] → "
+                    f"[green]{result.enhanced_word_count}[/green]\n"
+                    f"Backup: [dim]{result.backup_path}[/dim]\n\n"
+                    f"[bold]Improvements:[/bold]\n"
+                    + "\n".join(f"  • {imp}" for imp in result.improvements_made),
+                    title="[bold green]Complete[/bold green]",
+                    border_style="green",
+                )
+            )
+
+        else:
+            # Directory enhancement
+            console.print(f"\n[bold]Enhancing directory:[/bold] {path}")
+
+            results = enhancer.enhance_directory(
+                path,
+                recursive=recursive,
+                target_word_count=words,
+                improve_seo=not no_seo,
+                use_trends=not no_trends,
+                backup=not no_backup,
+            )
+
+            # Summary table
+            successful = [r for r in results if not r.error]
+            failed = [r for r in results if r.error]
+
+            if successful:
+                table = Table(title="Enhanced Files", show_header=True)
+                table.add_column("File", style="cyan")
+                table.add_column("Before", justify="right")
+                table.add_column("After", justify="right", style="green")
+                table.add_column("Change", justify="right")
+
+                for r in successful:
+                    change = r.enhanced_word_count - r.original_word_count
+                    change_str = f"+{change}" if change > 0 else str(change)
+                    table.add_row(
+                        r.file_path.name,
+                        str(r.original_word_count),
+                        str(r.enhanced_word_count),
+                        change_str,
+                    )
+
+                console.print()
+                console.print(table)
+
+            if failed:
+                console.print(f"\n[bold red]Failed ({len(failed)}):[/bold red]")
+                for r in failed:
+                    console.print(f"  • {r.file_path.name}: {r.error}")
+
+            # Final summary
+            total_before = sum(r.original_word_count for r in successful)
+            total_after = sum(r.enhanced_word_count for r in successful)
+            console.print(
+                f"\n[bold]Summary:[/bold] {len(successful)} enhanced, {len(failed)} failed"
+            )
+            console.print(f"[bold]Total words:[/bold] {total_before} → {total_after}")
+
+    except Exception as e:
+        console.print(f"[bold red]Error:[/bold red] {e}")
+        raise typer.Exit(code=1) from e
+
+
 if __name__ == "__main__":
     app()
+

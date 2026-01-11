@@ -23,6 +23,7 @@
 | 📈 **Google Trends** | Validates topics and finds rising/related search queries |
 | 📝 **Smart Outlining** | Dynamically chooses layout (Listicle, Deep Dive, Tutorial) |
 | ✍️ **Premium Writing** | WSJ-style prose, human-like flow, and anti-AI-detection |
+| 🔄 **Blog Enhancement** | Improve existing blogs with SEO, content expansion, and fixes |
 | 📄 **Hugo Compatible** | Outputs markdown with YAML/TOML frontmatter & cover images |
 | ⚙️ **Fully Configurable** | Custom API endpoints, models, prompts, and more |
 | 🔌 **OpenAI Compatible** | Works with any OpenAI-compatible API (local or cloud) |
@@ -75,6 +76,12 @@ pencraft config --show
 
 # Create a config file
 pencraft config --init
+
+# Enhance existing blogs (SEO, content expansion, fixes)
+pencraft enhance ./my-blog.md --words 3000
+
+# Enhance entire directory
+pencraft enhance ./blogs/ --recursive --words 3000
 ```
 
 ### Python API
@@ -98,6 +105,26 @@ blog = generator.generate(
 
 print(f"Generated: {blog.title} ({blog.word_count} words)")
 print(f"Saved to: {blog.file_path}")
+```
+
+### Enhance Existing Blogs
+
+```python
+from pencraft import BlogEnhancer, Settings
+
+enhancer = BlogEnhancer(settings=Settings())
+
+# Enhance single file
+result = enhancer.enhance(
+    Path("./my-blog.md"),
+    target_word_count=3000,
+    improve_seo=True,
+    use_trends=True,
+)
+print(f"Enhanced: {result.original_word_count} → {result.enhanced_word_count} words")
+
+# Batch enhance directory
+results = enhancer.enhance_directory(Path("./blogs/"), pattern="*.md")
 ```
 
 ## ⚙️ Configuration
@@ -189,6 +216,7 @@ pencraft/
 | `pencraft write <topic>` | Generate a complete blog post |
 | `pencraft research <topic>` | Research a topic only |
 | `pencraft outline <topic>` | Create a blog outline |
+| `pencraft enhance <path>` | Enhance existing blog(s) with SEO & content improvements |
 | `pencraft config --show` | Display current settings |
 | `pencraft config --init` | Create a config file |
 
