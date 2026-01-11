@@ -102,9 +102,7 @@ class BlogEnhancer:
         self.settings = settings or SettingsClass()
         self.llm_client = llm_client or LLMClient(self.settings)
         self.trends_tool = trends_tool or TrendsTool()
-        self.frontmatter_gen = FrontmatterGenerator(
-            format=self.settings.hugo.frontmatter_format
-        )
+        self.frontmatter_gen = FrontmatterGenerator(format=self.settings.hugo.frontmatter_format)
         self.on_progress = on_progress or (lambda _msg: None)
 
     def _report_progress(self, message: str) -> None:
@@ -168,9 +166,31 @@ class BlogEnhancer:
             # Extract key terms from title
             # Remove common words to get better trend matches
             stopwords = {
-                "the", "a", "an", "is", "are", "how", "to", "what", "why",
-                "when", "your", "you", "and", "or", "for", "with", "from",
-                "in", "on", "at", "by", "of", "that", "this", "it",
+                "the",
+                "a",
+                "an",
+                "is",
+                "are",
+                "how",
+                "to",
+                "what",
+                "why",
+                "when",
+                "your",
+                "you",
+                "and",
+                "or",
+                "for",
+                "with",
+                "from",
+                "in",
+                "on",
+                "at",
+                "by",
+                "of",
+                "that",
+                "this",
+                "it",
             }
             words = title.lower().split()
             keywords = [w for w in words if w not in stopwords and len(w) > 2]
@@ -286,7 +306,7 @@ class BlogEnhancer:
             # Find end of frontmatter
             end_match = re.search(r"\n---\n", content[3:])
             if end_match:
-                content = content[end_match.end() + 3:]
+                content = content[end_match.end() + 3 :]
 
         # Remove title if it was duplicated
         content = re.sub(r"^#\s+.+\n+", "", content)
@@ -490,15 +510,12 @@ class BlogEnhancer:
                 trends_data, trends_context = self._get_trends_context(title)
                 if trends_data:
                     trending_keywords = (
-                        trends_data.rising_queries[:5] +
-                        trends_data.related_queries[:5]
+                        trends_data.rising_queries[:5] + trends_data.related_queries[:5]
                     )
                     improvements_made.append("Integrated Google Trends data")
 
             # Analyze content
-            analysis = self._analyze_content(
-                body_content, title, target_word_count, trends_context
-            )
+            analysis = self._analyze_content(body_content, title, target_word_count, trends_context)
 
             # Enhance content
             enhanced_body = self._enhance_content(
@@ -559,9 +576,7 @@ class BlogEnhancer:
             # Write enhanced content
             file_path.write_text(enhanced_content, encoding="utf-8")
 
-            self._report_progress(
-                f"Enhanced: {original_word_count} → {enhanced_word_count} words"
-            )
+            self._report_progress(f"Enhanced: {original_word_count} → {enhanced_word_count} words")
 
             return EnhancedBlog(
                 file_path=file_path,
@@ -616,9 +631,7 @@ class BlogEnhancer:
             raise ValueError(f"Not a directory: {directory}")
 
         # Find matching files
-        files = (
-            list(directory.rglob(pattern)) if recursive else list(directory.glob(pattern))
-        )
+        files = list(directory.rglob(pattern)) if recursive else list(directory.glob(pattern))
 
         # Sort for consistent ordering
         files = sorted(files)

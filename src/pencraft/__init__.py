@@ -13,4 +13,3 @@ from pencraft.config.settings import Settings, get_settings
 from pencraft.enhancer import BlogEnhancer, EnhancedBlog
 
 __all__ = ["Settings", "get_settings", "BlogEnhancer", "EnhancedBlog", "__version__"]
-
