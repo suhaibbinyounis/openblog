@@ -100,7 +100,7 @@ class BlogEnhancer:
         from pencraft.config.settings import Settings as SettingsClass
 
         self.settings = settings or SettingsClass()
-        self.llm_client = llm_client or LLMClient(self.settings)
+        self.llm_client = llm_client or LLMClient(self.settings.llm)
         self.trends_tool = trends_tool or TrendsTool()
         self.frontmatter_gen = FrontmatterGenerator(format=self.settings.hugo.frontmatter_format)
         self.on_progress = on_progress or (lambda _msg: None)
@@ -240,7 +240,7 @@ class BlogEnhancer:
             trends_data=trends_data,
         )
 
-        response = self.llm_client.complete(prompt)
+        response = self.llm_client.generate(prompt)
 
         return ContentAnalysis(
             title=title,
@@ -285,7 +285,7 @@ class BlogEnhancer:
             specific_issues=specific_issues,
         )
 
-        enhanced = self.llm_client.complete(prompt)
+        enhanced = self.llm_client.generate(prompt)
 
         # Clean up any artifacts
         enhanced = self._clean_enhanced_content(enhanced)
@@ -348,7 +348,7 @@ class BlogEnhancer:
             keywords=", ".join(keywords[:5]),
         )
 
-        description = self.llm_client.complete(prompt)
+        description = self.llm_client.generate(prompt)
 
         # Clean and truncate
         description = description.strip().strip('"').strip()
@@ -392,7 +392,7 @@ class BlogEnhancer:
             current_categories=", ".join(current_categories) if current_categories else "None",
         )
 
-        response = self.llm_client.complete(prompt)
+        response = self.llm_client.generate(prompt)
 
         # Parse JSON response
         try:
